@@ -21,5 +21,6 @@ setup(
         'django-simple-captcha==0.5.3',
         'django-newsletter==0.6',
         'Pillow',
+        'simplejson==3.10.0'
     ],
 )
