@@ -26,3 +26,6 @@
 #Folder
 media/
 component/
+dist/
+build/
+app/RestFood.egg-info/
