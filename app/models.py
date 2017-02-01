@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
-from django import forms
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.contrib.auth.models import User
+from choices import CITY, GENDER
 
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
@@ -29,11 +29,6 @@ class User_Info(Base):
     print profile.avatar_thumbnail.url     /media/CACHE/images/982d5af84cddddfd0fbf70892b4431e4.jpg
     print profile.avatar_thumbnail.width  100
     """
-    GENDER = (
-        ('m', 'Male'),
-        ('f', 'Female'),
-        ('u', 'Undenifed'),
-    )
     user = models.ForeignKey(User)
     birthday = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER)
@@ -48,29 +43,25 @@ class User_Info(Base):
         return int((datetime.date.today() - self.birthday).days / 365.25)
 
 
-class Sucursal(Base):
-    city = models.CharField(max_length=15) # Change to Choice with all citys in Venezuela
-    address = models.CharField(max_length=112)
-    main = models.BooleanField(default=False)
-
-
 class Restaurant(Base):
-    name = models.CharField(max_length=60)
-    password = forms.CharField(widget=forms.PasswordInput)
-    rif = models.CharField(max_length=100)
+    name = models.CharField(max_length=60, null=False, unique=True)
+    password = models.CharField(max_length=25, null=False, unique=True)
+    rif = models.CharField(max_length=100, null=False, unique=True)
     number_phone = models.IntegerField()
-    email = models.EmailField(max_length=45)
-    sucursales = models.ManyToManyField(Sucursal, through=u'RestaurantSucursal', related_name=u'sucursals_restaurant')
+    email = models.EmailField(max_length=45, null=False, unique=True)
 
 
 class RestaurantSucursal(models.Model):
     restaurant = models.ForeignKey(Restaurant)
-    sucursal = models.ForeignKey(Sucursal)
+    city = models.CharField(max_length=15, choices=CITY, default="caracas") # Change to Choice with all citys in Venezuela
+    address = models.CharField(max_length=112, default="undefined")
+    main = models.BooleanField(default=False)
 
-class User_Star(Base):
+
+class User_Star(models.Model):
     user = models.ForeignKey(User_Info)
+    restaurant = models.ForeignKey(Restaurant)
     calification = IntegerRangeField(min_value=0, max_value=5, default=0)
-    stars = models.ManyToManyField(Restaurant)
 
 
 class Restaurant_Media(Base):
@@ -99,20 +90,11 @@ class Restaurant_Info(Base):
     !! cambiar el field de city a choice
     """
 
-    CITY = (
-        ('zulia', 'Zulia'), ('caracas', 'Caracas'), ('valencia', 'Valencia'),
-        ('barquisimeto', 'Barquisimeto'), ('maracay','Maracay'), (' ciudad guayana', ' Ciudad Guayana'),
-        ('san cristobal', 'San Cristobal'), ('barcelona', 'Barcelona'), ('maturin', 'Maturin'),
-        ('ciudad bolivar', 'Ciudad Bolivar'), ('puerto la cruz', 'Puerto La Cruz'), ('merida', 'Merida'),
-        ('punto fijo', 'Punto Fijo'), ('los teques', 'Los Teques'), ('acarigua', 'Acarigua'),
-        ('carabobo', 'Carabobo'), ('valera', 'Valera'), ('apure', 'Apure'), ('coro', 'Coro'),
-        ('puerto cabello', 'Puerto Cabello')
-    )
     restaurant_id = models.ForeignKey(Restaurant)
     mealtype = models.CharField(max_length=15)
     slogan = models.CharField(max_length=112)
     descripcion = models.CharField(max_length=300)
-    city =  models.CharField(max_length=15, choices=CITY)
+    city =  models.CharField(max_length=15, choices=CITY, default="caracas")
     address = models.CharField(max_length=112)
 
 
