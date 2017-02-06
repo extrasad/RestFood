@@ -43,7 +43,7 @@ class UserInfoTestCase(CreateUser):
             gender='Male')
         lion_info = User_Info.objects.get(user_id=lion.pk)
         self.assertEqual(lion_info.pk, 1)
-        self.assertEqual(lion_info.get_age, 11)
+        self.assertEqual(lion_info.get_age, 12)
 
 class RestaurantTestCase(CreateUser):
     def setUp(self):
@@ -55,18 +55,20 @@ class RestaurantTestCase(CreateUser):
             email="sadliferest@gmail.com"
         )
 
+        self.rest = Restaurant.objects.get(name="Pizza Sad Life")
+
     def test_create_sucursal(self):
-        rest = Restaurant.objects.get(name="Pizza Sad Life")
+        #rest = Restaurant.objects.get(name="Pizza Sad Life")
 
         RestaurantSucursal.objects.create(
-            restaurant_id=rest.pk,
+            restaurant_id=self.rest.pk,
             city="caracas",
             address="Calle Maria Luisa, Av 76, Sector 24",
             main=True
         )
 
         RestaurantSucursal.objects.create(
-            restaurant_id=rest.pk,
+            restaurant_id=self.rest.pk,
             city="zulia",
             address="Haticos por arriba, calle 56",
             main=False
@@ -81,7 +83,7 @@ class RestaurantTestCase(CreateUser):
         self.assertFalse(sucursal2.main)
 
         sucursals = RestaurantSucursal.objects.\
-            filter(restaurant=rest.pk)
+            filter(restaurant=self.rest.pk)
 
         count_sucursals = len(sucursals)
 
@@ -89,18 +91,17 @@ class RestaurantTestCase(CreateUser):
 
     def test_user_star_restaurant(self):
         w = self.test_return_user()
-        rest = Restaurant.objects.get(name="Pizza Sad Life")
         numbers = [2, 5, 3]
         for n in numbers:
             User_Star.objects.create(
                 user_id=w.pk,
-                restaurant_id=rest.pk,
+                restaurant_id=self.rest.pk,
                 calification=n
             )
 
         stars = User_Star.objects.values('calification')\
             .filter(user_id=w.pk,
-                   restaurant_id=rest.pk)\
+                   restaurant_id=self.rest.pk)\
                     .all()
 
         stars_len = len(stars)
@@ -111,6 +112,62 @@ class RestaurantTestCase(CreateUser):
 
         stars_prom = stars_sum/len(stars)
         self.assertEqual(stars_sum, 10)
-        self.assertEqual(stars_prom, 3)
+        self.assertEqual(stars_prom, 3) # (2 + 5 + 3) / 3 = 3
 
-        # (2 + 5 + 3) / 3 = 3
+    def test_restaurant_media(self):
+        Restaurant_Media.objects.create(
+            restaurant_id = self.rest.pk
+        )
+
+    def test_restaurant_info(self):
+        Restaurant_Info.objects.create(
+            restaurant_id=self.rest.pk,
+            mealtype="Pizza",
+            slogan="Las pizzas mas arrechas!",
+            descripcion="Somos un betazo, Destroying test database"
+        )
+
+        info = Restaurant_Info.objects.get(mealtype="Pizza")
+        self.assertEqual(info.pk, 1)
+
+    def test_restaurant_dish(self):
+        Food_Dishes.objects.create(
+            restaurant_id=self.rest.pk,
+            only_ofert='yes',
+            description="Somos un betazo, Destroying test database",
+            name="Pizza Milk",
+            mealtype="Pizza"
+        )
+
+        dish = Food_Dishes.objects.get(mealtype="Pizza")
+        self.assertEqual(dish.prize, 0)
+
+    def test_resturant_review(self):
+        w = self.test_return_user()
+        Restaurant_Review.objects.create(
+            restaurant_id=self.rest.pk,
+            user_id=w.pk,
+            text="WOWOWOWOWO YES!"
+        )
+
+        review = Restaurant_Review.objects.get(user_id=w.pk)
+        self.assertEqual(review.user_id, 1)
+        review.users_like.add(w)
+        self.assertEqual(review.users_like.count(), 1)
+        review.users_like.remove(w)
+        self.assertEqual(review.users_like.count(), 0)
+
+    def test_dish_review(self):
+        w = self.test_return_user()
+        Dish_Review.objects.create(
+            dish_id=self.rest.pk,
+            user_id=w.pk,
+            text="WOWOWOWOWO YES!"
+        )
+
+        review = Dish_Review.objects.get(user_id=w.pk)
+        self.assertEqual(review.user_id, 1)
+        review.users_like.add(w)
+        self.assertEqual(review.users_like.count(), 1)
+        review.users_like.remove(w)
+        self.assertEqual(review.users_like.count(), 0)

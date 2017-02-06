@@ -14,3 +14,8 @@ GENDER = (
     ('f', 'Female'),
     ('u', 'Undenifed'),
 )
+
+ONLY_OFERT = (
+    ('yes', 'Yes only ofert'),
+    ('no', 'No only ofert'),
+)

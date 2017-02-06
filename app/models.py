@@ -3,7 +3,7 @@ from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.contrib.auth.models import User
-from choices import CITY, GENDER
+from choices import *
 
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
@@ -16,7 +16,6 @@ class IntegerRangeField(models.IntegerField):
 
 
 class Base(models.Model):
-    id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -56,20 +55,22 @@ class RestaurantSucursal(models.Model):
     city = models.CharField(max_length=15, choices=CITY, default="caracas") # Change to Choice with all citys in Venezuela
     address = models.CharField(max_length=112, default="undefined")
     main = models.BooleanField(default=False)
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class User_Star(models.Model):
     user = models.ForeignKey(User_Info)
     restaurant = models.ForeignKey(Restaurant)
     calification = IntegerRangeField(min_value=0, max_value=5, default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-
-class Restaurant_Media(Base):
+class Restaurant_Media(models.Model):
     """
     !! crear imagenes default y
     sus carpetas
     """
-    restaurant_id = models.ForeignKey(Restaurant)
+    restaurant = models.ForeignKey(Restaurant)
     banner = models.ImageField(upload_to='restaurant_banner/', default='restaurant_banner/default.jpg')
 
     banner_thumbnail = ImageSpecField(source='banner',
@@ -84,21 +85,18 @@ class Restaurant_Media(Base):
                                       format='JPEG',
                                       options={'quality': 60})
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-class Restaurant_Info(Base):
-    """
-    !! cambiar el field de city a choice
-    """
-
-    restaurant_id = models.ForeignKey(Restaurant)
+class Restaurant_Info(models.Model):
+    restaurant = models.ForeignKey(Restaurant)
     mealtype = models.CharField(max_length=15)
     slogan = models.CharField(max_length=112)
     descripcion = models.CharField(max_length=300)
-    city =  models.CharField(max_length=15, choices=CITY, default="caracas")
-    address = models.CharField(max_length=112)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-
-class Food_Dishes(Base):
+class Food_Dishes(models.Model):
     """
     >Si el plato es only ofert no se
     renderizara en la parte de platos
@@ -106,11 +104,7 @@ class Food_Dishes(Base):
     >Si prize es 0 entonces se ocultara
     el precio
     """
-    ONLY_OFERT = (
-        ('yes', 'Yes only ofert'),
-        ('no', 'No only ofert'),
-    )
-    restaurant_id = models.ForeignKey(Restaurant)
+    restaurant = models.ForeignKey(Restaurant)
     only_ofert = models.CharField(max_length=3, choices=ONLY_OFERT)
     description = models.CharField(max_length=400)
     name = models.CharField(max_length=45)
@@ -123,9 +117,12 @@ class Food_Dishes(Base):
                                       format='JPEG',
                                       options={'quality': 60})
 
-class Restaurant_Review(Base):
-    restaurant_id = models.ForeignKey(Restaurant)
-    user_id = models.ForeignKey(User_Info)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Restaurant_Review(models.Model):
+    restaurant = models.ForeignKey(Restaurant)
+    user = models.ForeignKey(User_Info)
     text = models.CharField(max_length=240)
     users_like = models.ManyToManyField(
         User,
@@ -137,9 +134,9 @@ class Restaurant_Review(Base):
     def total_likes(self):
         return self.users_like.count()
 
-class Dish_Review(Base):
-    dish_id = models.ForeignKey(Food_Dishes)
-    user_id = models.ForeignKey(User_Info)
+class Dish_Review(models.Model):
+    dish = models.ForeignKey(Food_Dishes)
+    user = models.ForeignKey(User_Info)
     text = models.CharField(max_length=120)
     users_like = models.ManyToManyField(
         User,
