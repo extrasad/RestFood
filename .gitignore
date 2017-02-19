@@ -24,8 +24,10 @@
 
 
 #Folder
+.idea/
 media/
 component/
 dist/
 build/
 app/RestFood.egg-info/
+app/static/stylesheets/sass/.sass-cache

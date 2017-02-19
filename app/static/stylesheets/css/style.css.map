@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,OAAO;EACL,KAAK,ECAS,OAAiB;;ACDjC,OAAO;EACL,KAAK,EDCW,OAAiB;;AEFnC,OAAO;EACL,KAAK,EFDQ,OAAgB;;AGA/B,OAAO;EACL,KAAK,EHEU,OAAgB",
+"sources": ["../sass/partials/_footer.scss","../sass/tools/_variables.scss","../sass/partials/_header.scss","../sass/partials/_restaurantprofile.scss","../sass/partials/_userprofile.scss"],
+"names": [],
+"file": "style.css"
+}
