@@ -1,6 +1,5 @@
 # stylesheet rules
 
-***
 
 Command for compile: **sass --watch main.scss:../css/style.css**
 
