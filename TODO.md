@@ -8,3 +8,8 @@
 >> El simbolo **=>** Es que se debe crear un metodo @property para una funcion especifica
 
 > Crear modelos para los likes en un review
+
+> crear arbol de busqueda http://stackoverflow.com/questions/36027841/python-create-a-binary-search-tree-using-a-list
+>> hay que crear un models para las busqueds y hacer un pequeño motor con un buen algoritmo...
+
+> Testear formularios

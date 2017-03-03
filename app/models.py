@@ -31,6 +31,7 @@ class User_Info(Base):
     user = models.ForeignKey(User)
     birthday = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER)
+    city = models.CharField(max_length=15, choices=CITY, default="caracas") # Change to Choice with all citys in Venezuela
     avatar = models.ImageField(upload_to='user_profile/', default='user_profile/default.jpg')
     avatar_thumbnail = ImageSpecField(source='avatar',
                                       processors=[ResizeToFill(100, 50)],
