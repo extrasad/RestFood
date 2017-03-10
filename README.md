@@ -26,7 +26,6 @@ Components Requires
 
 * [jquery](https://github.com/jquery/jquery)
 * [materialize](https://github.com/Dogfalo/materialize)
-* [popper.js](https://github.com/FezVrasta/popper.js)
 
 Install bower components
 
