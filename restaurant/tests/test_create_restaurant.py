@@ -1,57 +1,8 @@
-from django.test import TestCase
 from ..models import *
+from test_helper import TestHelper
 
-class RestaurantTestCase(TestCase):
+class RestaurantTestCase(TestHelper):
 
-    def create_restaurants(self):
-        import json, os
-        with open(os.path.abspath("restaurant/tests/restaurants.json")) as file:
-            restaurant_json = json.load(file)
-            for restaurant in restaurant_json['restaurants']:
-                this_restaurant = Restaurant.objects.create(
-                    name=restaurant['name'],
-                    password=restaurant['password'],
-                    rif=restaurant['rif'],
-                    number_phone=restaurant['number_phone'],
-                    email=restaurant['email'])
-                try:
-                    sucursals = restaurant['sucursal']
-                    for sucursal in sucursals:
-                        RestaurantSucursal.objects.create(
-                            restaurant_id=this_restaurant.pk,
-                            city=sucursal['city'],
-                            address=sucursal['address'],
-                            main=True if sucursal['main'] == 'True' else False)
-                except KeyError: pass
-                try:
-                    information = restaurant['information']
-                    RestaurantInfo.objects.create(
-                        restaurant_id=this_restaurant.pk,
-                        mealtype=information['mealtype'],
-                        slogan=information['slogan'],
-                        description=information['description'])
-                except KeyError: pass
-                try:
-                    dishes = restaurant['dishes']
-                    for dish in dishes:
-                        Dish.objects.create(
-                            restaurant_id=this_restaurant.pk,
-                            name=dish['name'],
-                            only_ofert=True if dish['only_ofert'] == 'True' else False,
-                            description=dish['description'],
-                            prize=dish['prize'],
-                            mealtype=dish['mealtype'])
-                except KeyError: pass
-
-    def setUp(self):
-        Restaurant.objects.create(
-            name="Restaurant Name",
-            password="123456789",
-            rif="6666-2144-1244-2426-0080",
-            number_phone=0424421442,
-            email="restaurant@dominie.com")
-        self.subject = Restaurant.objects.get(name="Restaurant Name")
-    
     def test_create_surcusal(self):
         # Create sucursal relationship
         RestaurantSucursal.objects.create(
@@ -142,9 +93,3 @@ class RestaurantTestCase(TestCase):
         self.assertEqual(len(burger_by_mealtype), 2)
         # Should have 1 restaurant in zulia with a dish of pizza
         self.assertEqual(len(zulia_dish_pizza), 1)
-
-    def test_create_category(self):
-        # Crear algoritmo que retorne un JSON con todas las categorias que hay
-        # de restaurantes, esto no es un attr de alguna tabla, es un elemento
-        # que se debera calcular
-        pass

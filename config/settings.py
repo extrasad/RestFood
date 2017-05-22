@@ -31,10 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-#    'core',
-#    'service'
+    'core',
+    'service',
     'restaurant',
-#    'foodie'
+    'foodie',
 
 
     #django funnys packages

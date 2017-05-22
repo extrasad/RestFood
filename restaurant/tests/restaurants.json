@@ -17,6 +17,41 @@
           "address": "Boulevard Santa Rita Calle 123",
           "main": "False"
         }
+      ],
+      "information": {
+          "mealtype": "pizza",
+          "slogan": "Lorem ipsum dolor amet it",
+          "description": "Funny food and lorem ipsum"
+      },
+      "dishes": [
+        {
+          "name": "Pizza Crazy Tomato",
+          "only_ofert": "True",
+          "description": "Is a yeasted flatbread typically topped with tomato sauce and cheese and baked in an oven",
+          "prize": "16.000",
+          "mealtype": "Pizza"
+        },
+        {
+          "name": "Pizza Sad Lacra",
+          "only_ofert": "False",
+          "description": "Is a yeasted flatbread typically topped with tomato sauce and cheese and baked in an oven",
+          "prize": "18.500",
+          "mealtype": "Pizza"
+        },
+        {
+          "name": "Burger Tripeo",
+          "only_ofert": "False",
+          "description": "Is a yeasted flatbread typically topped with burger sauce and cheese and baked in an oven",
+          "prize": "12.500",
+          "mealtype": "Burger"
+        },
+        {
+          "name": "Super Hot Dog",
+          "only_ofert": "False",
+          "description": "Is a yeasted flatbread typically",
+          "prize": "11.800",
+          "mealtype": "Hot Dog"
+        }
       ]
     },
     {
@@ -31,7 +66,12 @@
           "address": "Calle Carabobo Padilla Edif 123",
           "main": "True"
         }
-      ]      
+      ],
+      "information": {
+          "mealtype": "pizza",
+          "slogan": "Lorem ipsum dolor amet it",
+          "description": "Funny food and lorem ipsum"
+      }
     },
     {
       "name": "Pasta Italiana Sureña",
@@ -59,7 +99,23 @@
           "city": "san cristobal",
           "address": "6762 33 Ave N",
           "main": "False"
-        }                        
+        }
+      ],
+      "dishes": [
+        {
+          "name": "Pasta chicken with orange",
+          "only_ofert": "True",
+          "description": "Is a yeasted flatbread typically topped with tomato sauce and cheese and baked in an oven",
+          "prize": "22.000",
+          "mealtype": "Pasta"
+        },
+        {
+          "name": "Coconut Pasta",
+          "only_ofert": "False",
+          "description": "Is a yeasted flatbread typically topped with tomato sauce and cheese and baked in an oven",
+          "prize": "18.500",
+          "mealtype": "Pasta"
+        }
       ]
     },
     {
@@ -79,7 +135,12 @@
           "address": "226 E Fee Ave",
           "main": "False"
         }                      
-      ]      
+      ],
+      "information": {
+          "mealtype": "pizza",
+          "slogan": "Lorem ipsum dolor amet it",
+          "description": "Funny food and lorem ipsum"
+      }
     },
     {
       "name": "Pizza Resident",
@@ -107,7 +168,12 @@
           "address": "Half-Way Pond, Georgetown",
           "main": "True"
         }
-      ]
+      ],
+      "information": {
+          "mealtype": "pizza",
+          "slogan": "Lorem ipsum dolor amet it",
+          "description": "Funny food and lorem ipsum"
+      }
     },
     {
       "name": "Coffee Scripting",
@@ -135,7 +201,35 @@
       "password": "loving-214",
       "rif": "1234-2424-2444-2426-7777",
       "number_phone": "0414421442",
-      "email": "email_9@gmail.com"
+      "email": "email_9@gmail.com",
+      "information": {
+          "mealtype": "pizza",
+          "slogan": "Lorem ipsum dolor amet it",
+          "description": "Funny food and lorem ipsum"
+      },
+      "dishes": [
+        {
+          "name": "Pizza Locutor",
+          "only_ofert": "False",
+          "description": "Is a yeasted flatbread typically topped with tomato sauce and cheese and baked in an oven",
+          "prize": "16.000",
+          "mealtype": "Pizza"
+        },
+        {
+          "name": "Pan Frances",
+          "only_ofert": "True",
+          "description": "Is cheese and baked in an oven",
+          "prize": "11.500",
+          "mealtype": "Pizza"
+        },
+        {
+          "name": "Burger Super",
+          "only_ofert": "False",
+          "description": "Is a yeasted flatbread typically topped with burger sauce and cheese and baked in an oven",
+          "prize": "12.500",
+          "mealtype": "Burger"
+        }
+      ]
     },
     {
       "name": "Arabic Food Star",
@@ -180,7 +274,12 @@
           "address": "1807 Glenwood St NE",
           "main": "False"
         }                    
-      ]
+      ],
+      "information": {
+          "mealtype": "pizza",
+          "slogan": "Lorem ipsum dolor amet it",
+          "description": "Funny food and lorem ipsum"
+      }
     },
     {
       "name": "Coffee Relax",
@@ -193,6 +292,20 @@
           "city": "caracas",
           "address": "Avenida Libertador",
           "main": "True"
+        }
+      ],
+      "information": {
+          "mealtype": "pizza",
+          "slogan": "Lorem ipsum dolor amet it",
+          "description": "Funny food and lorem ipsum"
+      },
+      "dishes": [
+        {
+          "name": "Capuccino Loco",
+          "only_ofert": "True",
+          "description": "Simple coffe",
+          "prize": "5500",
+          "mealtype": "Coffee"
         }
       ]
     },
