@@ -1,0 +1,233 @@
+{
+  "restaurants": [
+    {
+      "name": "Pizza San Juan",
+      "password": "2143143",
+      "rif": "9876-2144-1244-2426-0080",
+      "number_phone": "0424421442",
+      "email": "email_1@gmail.com",
+      "sucursal": [
+        {
+          "city": "zulia",
+          "address": "Avenida Padilla Edif 123",
+          "main": "True"
+        },
+        {
+          "city": "ciudad bolivar",
+          "address": "Boulevard Santa Rita Calle 123",
+          "main": "False"
+        }
+      ]
+    },
+    {
+      "name": "Pizza Domingo",
+      "password": "214314243",
+      "rif": "1244-2424-2444-2426-0080",
+      "number_phone": "0414421442",
+      "email": "email_2@gmail.com",
+      "sucursal": [
+        {
+          "city": "carabobo",
+          "address": "Calle Carabobo Padilla Edif 123",
+          "main": "True"
+        }
+      ]      
+    },
+    {
+      "name": "Pasta Italiana Sureña",
+      "password": "24212141",
+      "rif": "8765-2423-1444-2426-0050",
+      "number_phone": "0416421442",
+      "email": "email_3@gmail.com",
+      "sucursal": [
+        {
+          "city": "zulia",
+          "address": "Half-Way Pond, Georgetown",
+          "main": "True"
+        },
+        {
+          "city": "zulia",
+          "address": "1807 Glenwood St NE",
+          "main": "False"
+        },
+        {
+          "city": "caracas",
+          "address": "Edward Andrew Neary (Ed)",
+          "main": "False"
+        },
+        {
+          "city": "san cristobal",
+          "address": "6762 33 Ave N",
+          "main": "False"
+        }                        
+      ]
+    },
+    {
+      "name": "Coffe Break July",
+      "password": "2143124",
+      "rif": "6543-0144-8844-2426-0080",
+      "number_phone": "0424214422",
+      "email": "email_4@gmail.com",
+      "sucursal": [
+        {
+          "city": "san cristobal",
+          "address": "Half-Way Pond, Georgetown",
+          "main": "True"
+        },
+        {
+          "city": "zulia",
+          "address": "226 E Fee Ave",
+          "main": "False"
+        }                      
+      ]      
+    },
+    {
+      "name": "Pizza Resident",
+      "password": "214231421",
+      "rif": "7654-2424-2214-2426-0080",
+      "number_phone": "0414421442",
+      "email": "email_5@gmail.com",
+      "sucursal": [
+        {
+          "city": "zulia",
+          "address": "Half-Way Pond, Georgetown",
+          "main": "True"
+        }
+      ]
+    },
+    {
+      "name": "Sushi&Life",
+      "password": "japansushi244",
+      "rif": "1244-2423-1444-2426-9999",
+      "number_phone": "04164214244",
+      "email": "email_6@gmail.com",
+      "sucursal": [
+        {
+          "city": "caracas",
+          "address": "Half-Way Pond, Georgetown",
+          "main": "True"
+        }
+      ]
+    },
+    {
+      "name": "Coffee Scripting",
+      "password": "24211233",
+      "rif": "5432-2423-1444-2426-0050",
+      "number_phone": "0416421442",
+      "email": "email_7@gmail.com",
+      "sucursal": [
+        {
+          "city": "caracas",
+          "address": "Avenida Libertador",
+          "main": "True"
+        }
+      ]
+    },    
+    {
+      "name": "Rest-Burger",
+      "password": "2143145",
+      "rif": "4321-2144-1244-2426-1003",
+      "number_phone": "0424421123",
+      "email": "email_8@gmail.com"
+    },
+    {
+      "name": "Food Loving",
+      "password": "loving-214",
+      "rif": "1234-2424-2444-2426-7777",
+      "number_phone": "0414421442",
+      "email": "email_9@gmail.com"
+    },
+    {
+      "name": "Arabic Food Star",
+      "password": "israelitas123",
+      "rif": "2344-2423-1444-3336-0050",
+      "number_phone": "21414442",
+      "email": "email_10@gmail.com"
+    },
+    {
+      "name": "Burger Princess",
+      "password": "e21433443",
+      "rif": "0000-4144-1644-2426-0080",
+      "number_phone": "0424421422",
+      "email": "email_11@gmail.com",
+      "sucursal": [
+        {
+          "city": "zulia",
+          "address": "Half-Way Pond, Georgetown",
+          "main": "True"
+        },
+        {
+          "city": "zulia",
+          "address": "1807 Glenwood St NE",
+          "main": "False"
+        }                      
+      ]
+    },
+    {
+      "name": "Pizza Hotel",
+      "password": "21431e241",
+      "rif": "2142-2924-2144-2426-0080",
+      "number_phone": "0225235232",
+      "email": "email_12@gmail.com",
+      "sucursal": [
+        {
+          "city": "apure",
+          "address": "Half-Way Pond, Georgetown",
+          "main": "True"
+        },
+        {
+          "city": "valera",
+          "address": "1807 Glenwood St NE",
+          "main": "False"
+        }                    
+      ]
+    },
+    {
+      "name": "Coffee Relax",
+      "password": "24888233",
+      "rif": "5432-2423-9444-2426-0050",
+      "number_phone": "0416421442",
+      "email": "email_13@gmail.com",
+      "sucursal": [
+        {
+          "city": "caracas",
+          "address": "Avenida Libertador",
+          "main": "True"
+        }
+      ]
+    },
+    {
+      "name": "Park Coffee",
+      "password": "00888233",
+      "rif": "0032-2423-9444-2426-0050",
+      "number_phone": "0416421442",
+      "email": "email_14@gmail.com",
+      "sucursal": [
+        {
+          "city": "caracas",
+          "address": "Avenida Libertador",
+          "main": "True"
+        }
+      ]
+    },
+    {
+      "name": "CoffeeComboy",
+      "password": "00888203",
+      "rif": "0032-2423-9444-2826-0050",
+      "number_phone": "0416421442",
+      "email": "email_15@gmail.com",
+      "sucursal": [
+        {
+          "city": "caracas",
+          "address": "Avenida Libertador",
+          "main": "False"
+        },
+        {
+          "city": "san cristobal",
+          "address": "Avenida 15",
+          "main": "True"
+        }        
+      ]
+    }    
+  ]
+}

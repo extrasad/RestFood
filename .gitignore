@@ -21,13 +21,15 @@
 *.rar
 *.tar
 *.zip
+*admin.json
+*db.sqlite3
 
-
-#Folder
+# Folders #
+##########
 .idea/
 media/
 component/
 dist/
 build/
-app/RestFood.egg-info/
+restfood_env/
 app/static/stylesheets/sass/.sass-cache

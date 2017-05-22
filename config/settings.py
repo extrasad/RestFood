@@ -31,8 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    #app main for our web
-    'app',
+#    'core',
+#    'service'
+    'restaurant',
+#    'foodie'
+
 
     #django funnys packages
     'djangobower',
@@ -67,7 +70,7 @@ STATICFILES_FINDERS = [
 
 #https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-STATICFILES_FINDERS
 
-ROOT_URLCONF = 'RestFood.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -85,7 +88,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'RestFood.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
@@ -147,5 +150,5 @@ BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'component')
 BOWER_INSTALLED_APPS = (
     'jquery',
     'materialize',
-    'popper.js',
+    'backbone'
 )

@@ -1,15 +1,16 @@
->Delete old image when update field:  **http://stackoverflow.com/questions/2878490/how-to-delete-old-image-when-update-imagefield**
+http://www.django-rest-framework.org/
+https://github.com/machinalis/slides/blob/master/desarrollo-web/django-testing.md
 
->El docstring de los modelos sera usados para poner informacion importante y tiene una nomenclatura
->> El Simbolo **>** Es una condicion
+Luego de Testear Los modelos en las app foodie y restaurant...
+...debo refactorizar los modelos con la clase Base que cree...
+...si causa problemas la elimino    
 
->> El Simbolo **!!** Es algo por hacer, ya sea arreglar un Bug o agregar algo mas
+Si los test no corrent poner test en el comienzo del nombre del archivo
 
->> El simbolo **=>** Es que se debe crear un metodo @property para una funcion especifica
+Guiarme con el proyecto de Servio 'car_project'
 
-> Crear modelos para los likes en un review
+En el core estaran los test/ de integracion con Selenium Webdriver
 
-> crear arbol de busqueda http://stackoverflow.com/questions/36027841/python-create-a-binary-search-tree-using-a-list
->> hay que crear un models para las busqueds y hacer un pequeño motor con un buen algoritmo...
+Mudar cada modelo a su app, hacer los test de los modelos y agregarlos en core/config
 
-> Testear formularios
+Crear API REST JSON en la app service haciendo referencia al termino web services.

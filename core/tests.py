@@ -58,8 +58,6 @@ class RestaurantTestCase(CreateUser):
         self.rest = Restaurant.objects.get(name="Pizza Sad Life")
 
     def test_create_sucursal(self):
-        #rest = Restaurant.objects.get(name="Pizza Sad Life")
-
         RestaurantSucursal.objects.create(
             restaurant_id=self.rest.pk,
             city="caracas",
