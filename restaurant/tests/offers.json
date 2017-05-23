@@ -1,0 +1,51 @@
+{
+  "offers": [
+    {
+      "name": "Big Craze Burguers!",
+      "description": "2 Burger Crazys, 1 Mini Burgesito and 3 small coca colas! Wow!",
+      "dishes": [
+        {
+          "name":"Burger Crazys",
+          "description":"Burger Crazys Super C00l",
+          "mealtype":"Burger"
+        },
+        {
+          "name":"Burger Crazys",
+          "description":"Burger Crazys Super C00l",
+          "mealtype":"Burger"
+        },
+        {
+          "name": "Mini Burgesito",
+          "description": "Burger Lorem",
+          "mealtype": "Burger"
+        }
+      ]
+    },
+    {
+      "name": "PizzaIce Monster!",
+      "description": "2 Family Pizza Tomati, 1 Mini Burgesito, and Chocolate Gift and 3 small pepsis! Wow!",
+      "dishes": [
+        {
+          "name":"Pizza Familty Tomati",
+          "description":"Pizza Crazys Super C00l",
+          "mealtype":"Pizza"
+        },
+        {
+          "name":"Pizza Familty Tomati",
+          "description":"Pizza Crazys Super C00l",
+          "mealtype":"Pizza"
+        },
+        {
+          "name": "Mini Burgesito",
+          "description": "Burger Lorem",
+          "mealtype": "Burger"
+        },
+        {
+          "name": "Chocolate Gift",
+          "description": "Small chocolate cake",
+          "mealtype": "Chocolate"
+        }
+      ]
+    }
+  ]
+}

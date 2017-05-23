@@ -25,8 +25,6 @@ class CreateCommentTestCase(TestHelper):
 
         last_comments = self.subject.get_last_comment(1, 5)
 
-        print [x.created_at for x in last_comments]
-
         # Matching
 
         # Should first date is greater than the second date

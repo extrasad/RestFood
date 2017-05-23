@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from ..models import *
 
+import json, os
+
 class TestHelper(TestCase):
 
     def setUp(self):
@@ -23,7 +25,6 @@ class TestHelper(TestCase):
             last_name="Romero")
 
     def create_restaurants(self):
-        import json, os
         with open(os.path.abspath("restaurant/tests/restaurants.json")) as file:
             restaurant_json = json.load(file)
             for restaurant in restaurant_json['restaurants']:
@@ -61,3 +62,20 @@ class TestHelper(TestCase):
                             prize=dish['prize'],
                             mealtype=dish['mealtype'])
                 except KeyError: pass
+
+
+    def create_offers(self):
+        with open(os.path.abspath("restaurant/tests/offers.json")) as file:
+            offer_json = json.load(file)
+            for offer in offer_json['offers']:
+                this_offer = Offer.objects.create(
+                    restaurant_id=self.subject.pk,
+                    name=offer['name'],
+                    description=offer['description'])
+                for dish in offer['dishes']:
+                    Dish.objects.create(
+                        restaurant_id=self.subject.pk,
+                        offer_id=this_offer.pk,
+                        name=dish['name'],
+                        description=dish['description'],
+                        mealtype=dish['mealtype'])

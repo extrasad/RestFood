@@ -2,13 +2,13 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
+from django.core import serializers
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from core.models import IntegerRangeField
 from core.choices import CITY, ONLY_OFERT
 from foodie.models import User
 
-# TODO: Create RestaurantCountVisite model
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=60, null=False, unique=True)
@@ -18,6 +18,11 @@ class Restaurant(models.Model):
     email = models.EmailField(max_length=45, null=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    users_like = models.ManyToManyField(User, related_name='restaurant_like', blank=True)
+
+    @property
+    def total_likes(self):
+        return self.users_like.count()
 
     @property
     def get_rating(self):
@@ -28,7 +33,6 @@ class Restaurant(models.Model):
     @property
     def get_total_comment(self):
         return len(RestaurantReview.objects.all())
-
 
     def get_last_comment(self, page_index, cant_item, max_item=100):
         from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -46,6 +50,18 @@ class Restaurant(models.Model):
 
         return comments.object_list
 
+    @property
+    def get_all_offers(self):
+        import json
+        dictionary = {}
+        for n in Offer.objects.select_related().filter(restaurant_id=self.pk):
+            dishes = serializers.serialize('json', list(n.get_all_dish),
+                                           fields=('pk', 'name', 'description',
+                                                   'pizza', 'photo_thumbnail'))
+            # dictionary["offer"][n.name] = json.dumps({'name':n.name, 'description': n.description})
+            # meter titulo y descripcion, pk de la oferta en dishes serializado y listo
+            print dishes
+        # print dictionary
 
 
 class RestaurantInfo(models.Model):
@@ -77,19 +93,6 @@ class RestaurantMedia(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class RestaurantReview(models.Model):
-    restaurant = models.ForeignKey(Restaurant)
-    user = models.ForeignKey(User)
-    text = models.CharField(max_length=240)
-    users_like = models.ManyToManyField(User, related_name='restaurant_review_liked', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    @property
-    def total_likes(self):
-        return self.users_like.count()
-
-
 class Restaurant_Star(models.Model):
     user = models.ForeignKey(User)
     restaurant = models.ForeignKey(Restaurant)
@@ -98,11 +101,25 @@ class Restaurant_Star(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class Offer(models.Model):
+    restaurant = models.ForeignKey(Restaurant)
+    name = models.CharField(max_length=85)
+    description = models.CharField(max_length=400)
+    photo = models.ImageField(upload_to='food_offers/', default="food_offers/default.jpg")
+    photo_thumbnail = ImageSpecField(source='photo', processors=[ResizeToFill(100, 50)],
+                                     format='JPEG', options={'quality': 60})
+
+    @property
+    def get_all_dish(self):
+        return Dish.objects.filter(offer_id=self.pk).all()
+
+
 class Dish(models.Model):
     restaurant = models.ForeignKey(Restaurant)
+    offer = models.ForeignKey(Offer, null=True)
     only_ofert = models.CharField(max_length=3, choices=ONLY_OFERT) #Si el plato es only ofert no se renderizara en la parte de platos del Restaurant
-    description = models.CharField(max_length=400)
-    name = models.CharField(max_length=45)
+    description = models.CharField(max_length=200)
+    name = models.CharField(max_length=85)
     mealtype = models.CharField(max_length=20, default="None")
     prize = models.FloatField(default=0)
     photo = models.ImageField(upload_to='food_dishes/', default="food_dishes/default.jpg")
@@ -110,13 +127,30 @@ class Dish(models.Model):
                                      format='JPEG', options={'quality': 60})
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    users_like = models.ManyToManyField(User, related_name='dish_like', blank=True)
+    @property
+    def total_likes(self):
+        return self.users_like.count()
+
+
+class RestaurantReview(models.Model):
+    restaurant = models.ForeignKey(Restaurant)
+    user = models.ForeignKey(User)
+    text = models.CharField(max_length=240)
+    users_like = models.ManyToManyField(User, related_name='restaurant_review_like', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def total_likes(self):
+        return self.users_like.count()
 
 
 class DishReview(models.Model):
     dish = models.ForeignKey(Dish)
     user = models.ForeignKey(User)
     text = models.CharField(max_length=120)
-    users_like = models.ManyToManyField(User, related_name='dish_review_liked', blank=True)
+    users_like = models.ManyToManyField(User, related_name='dish_review_like', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
