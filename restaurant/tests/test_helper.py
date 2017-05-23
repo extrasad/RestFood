@@ -79,3 +79,14 @@ class TestHelper(TestCase):
                         name=dish['name'],
                         description=dish['description'],
                         mealtype=dish['mealtype'])
+
+    def create_dish_and_likes(self):
+        with open(os.path.abspath("restaurant/tests/dishes.json")) as file:
+            dishes_json = json.load(file)
+            for dish in dishes_json['dishes']:
+                this_dish = Dish.objects.create(
+                    restaurant_id=self.subject.pk,
+                    name=dish['name'],
+                    description=dish['description'])
+                for user in dish['likes']:
+                    this_dish.users_like.add(user['user_id'])

@@ -7,7 +7,10 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from core.models import IntegerRangeField
 from core.choices import CITY, ONLY_OFERT
+from django.db.models import Count
 from foodie.models import User
+
+import json, ast
 
 
 class Restaurant(models.Model):
@@ -52,16 +55,31 @@ class Restaurant(models.Model):
 
     @property
     def get_all_offers(self):
-        import json
-        dictionary = {}
+        # https://docs.python.org/2/library/ast.html#ast.literal_eval
+        # TODO: Traer fotos de ofertas y platos y los id respectivos
+        array_offers = []
+        dictionary = {"offers": array_offers}
         for n in Offer.objects.select_related().filter(restaurant_id=self.pk):
             dishes = serializers.serialize('json', list(n.get_all_dish),
                                            fields=('pk', 'name', 'description',
-                                                   'pizza', 'photo_thumbnail'))
-            # dictionary["offer"][n.name] = json.dumps({'name':n.name, 'description': n.description})
-            # meter titulo y descripcion, pk de la oferta en dishes serializado y listo
-            print dishes
-        # print dictionary
+                                           'pizza', 'photo_thumbnail'))
+            array_offers.append({
+                'name': n.name,
+                'description': n.description,
+                'dishes': ast.literal_eval(dishes) # Important
+            })
+        return json.dumps(dictionary).replace('\\"',"\"")
+
+    def most_popular_dishes(self, cant_dishes):
+        # TODO: Traer fotos y datos importantes
+        array_dishes = []
+        query = Dish.objects.filter(restaurant_id=self.pk) \
+                   .annotate(like_count_total=Count('users_like')) \
+                   .order_by('-like_count_total')[:cant_dishes]    \
+                   .values('id', 'name', 'description', 'like_count_total')
+        for n in query:
+            array_dishes.append(n)
+        return json.dumps({'popular_dishes': array_dishes})
 
 
 class RestaurantInfo(models.Model):
@@ -128,6 +146,7 @@ class Dish(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     users_like = models.ManyToManyField(User, related_name='dish_like', blank=True)
+
     @property
     def total_likes(self):
         return self.users_like.count()

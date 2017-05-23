@@ -1,0 +1,103 @@
+{
+  "dishes": [
+    {
+      "name": "Hot Dog Felix",
+      "description": "Small Hot Sexy Girl",
+      "likes": [
+        {
+          "user_id": "1"
+        },
+        {
+          "user_id": "4"
+        }
+      ]
+    },
+    {
+      "name": "Burger Lorem",
+      "description": "Crock Crack Crick",
+      "likes": [
+        {
+          "user_id": "5"
+        }
+      ]
+    },
+    {
+      "name": "Sphagetti Loco",
+      "description": "Pasta More",
+      "likes": [
+        {
+          "user_id": "1"
+        },
+        {
+          "user_id": "5"
+        },
+        {
+          "user_id": "3"
+        }
+      ]
+    },
+    {
+      "name": "Pizzita Loca",
+      "description": "Pizzita loquita",
+      "likes": [
+        {
+          "user_id": "3"
+        },
+        {
+          "user_id": "2"
+        },
+        {
+          "user_id": "5"
+        }
+      ]
+    },
+    {
+      "name": "ChocoSadly",
+      "description": "Suicidal Food",
+      "likes": [
+        {
+          "user_id": "3"
+        },
+        {
+          "user_id": "2"
+        },
+        {
+          "user_id": "1"
+        },
+        {
+          "user_id": "5"
+        }
+      ]
+    },
+    {
+      "name": "Alone Food",
+      "description": "Alone forever",
+      "likes": [
+        {
+          "user_id": "2"
+        }
+      ]
+    },
+    {
+      "name": "Super Rico Mexican",
+      "description": "Very Latino",
+      "likes": [
+        {
+          "user_id": "1"
+        },
+        {
+          "user_id": "5"
+        },
+        {
+          "user_id": "4"
+        },
+        {
+          "user_id": "3"
+        },
+        {
+          "user_id": "2"
+        }
+      ]
+    }
+  ]
+}

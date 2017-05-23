@@ -2,19 +2,19 @@ from ..models import *
 from test_helper import TestHelper
 from faker import Faker
 
+import json
+
 fake = Faker()
 
-class CreateCommentTestCase(TestHelper):
+class CreateOfferTestCase(TestHelper):
 
     def test_create_offers(self):
-        # TODO: creaar algoritmo para property method en Restaurant: get_offers()
         self.create_offers()
-
+        all_offer = json.loads(self.subject.get_all_offers)
 
         # Matching
 
-        self.subject.get_all_offers
-        # Should
-        #self.assertEqual(len(), )
-        # Should
-        #self.assertEqual(len(), )
+        # Should the name of offer equal to Big Craze Burguers!
+        self.assertEqual(all_offer['offers'][0]['name'], 'Big Craze Burguers!')
+        # Should the name of offer equal to PizzaIce Monster!
+        self.assertEqual(all_offer['offers'][1]['name'], 'PizzaIce Monster!')
