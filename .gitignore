@@ -7,7 +7,6 @@
 *.o
 *.so
 *.pyc
-*.txt
 
 # Packages #
 ############
@@ -32,4 +31,4 @@ component/
 dist/
 build/
 restfood_env/
-app/static/stylesheets/sass/.sass-cache
+core/static/stylesheets/sass/.sass-cache

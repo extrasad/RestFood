@@ -63,7 +63,6 @@ class TestHelper(TestCase):
                             mealtype=dish['mealtype'])
                 except KeyError: pass
 
-
     def create_offers(self):
         with open(os.path.abspath("restaurant/tests/offers.json")) as file:
             offer_json = json.load(file)

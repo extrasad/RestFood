@@ -9,9 +9,8 @@ class CreateCommentTestCase(TestHelper):
 
     def test_total_comment(self):
         user = self.create_user()
-        [RestaurantReview.objects.create(restaurant_id=self.subject.pk, user_id=user.pk,
-            text=fake.text(randint(10, 35))) for x in range(0, 25)]
-
+        [RestaurantReview.objects.create(restaurant_id=self.subject.pk,user_id=user.pk,
+            text=fake.text(randint(10, 35)))for x in range(0, 25)]
 
         # Matching
 

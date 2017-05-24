@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from django.contrib.auth.models import User
 from django.core import serializers
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from core.models import IntegerRangeField
 from core.choices import CITY, ONLY_OFERT
 from django.db.models import Count
-from foodie.models import User
+from foodie.models import Foodie
 
 import json, ast
 
@@ -21,7 +20,7 @@ class Restaurant(models.Model):
     email = models.EmailField(max_length=45, null=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    users_like = models.ManyToManyField(User, related_name='restaurant_like', blank=True)
+    users_like = models.ManyToManyField(Foodie, related_name='restaurant_like', blank=True)
 
     @property
     def total_likes(self):
@@ -99,6 +98,7 @@ class RestaurantSucursal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
 class RestaurantMedia(models.Model):
     restaurant = models.ForeignKey(Restaurant)
     banner = models.ImageField(upload_to='restaurant_banner/', default='restaurant_banner/default.jpg')
@@ -112,7 +112,7 @@ class RestaurantMedia(models.Model):
 
 
 class Restaurant_Star(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(Foodie)
     restaurant = models.ForeignKey(Restaurant)
     rating = IntegerRangeField(min_value=0, max_value=5, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -145,7 +145,7 @@ class Dish(models.Model):
                                      format='JPEG', options={'quality': 60})
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    users_like = models.ManyToManyField(User, related_name='dish_like', blank=True)
+    users_like = models.ManyToManyField(Foodie, related_name='dish_like', blank=True)
 
     @property
     def total_likes(self):
@@ -154,9 +154,9 @@ class Dish(models.Model):
 
 class RestaurantReview(models.Model):
     restaurant = models.ForeignKey(Restaurant)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(Foodie)
     text = models.CharField(max_length=240)
-    users_like = models.ManyToManyField(User, related_name='restaurant_review_like', blank=True)
+    users_like = models.ManyToManyField(Foodie, related_name='restaurant_review_like', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -167,9 +167,9 @@ class RestaurantReview(models.Model):
 
 class DishReview(models.Model):
     dish = models.ForeignKey(Dish)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(Foodie)
     text = models.CharField(max_length=120)
-    users_like = models.ManyToManyField(User, related_name='dish_review_like', blank=True)
+    users_like = models.ManyToManyField(Foodie, related_name='dish_review_like', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,9 +1,8 @@
 http://www.django-rest-framework.org/
 https://github.com/machinalis/slides/blob/master/desarrollo-web/django-testing.md
+https://stackoverflow.com/questions/10602071/following-users-like-twitter-in-django-how-would-you-do-it
 
 Luego de Testear Los modelos en las app foodie y restaurant...
-...debo refactorizar los modelos con la clase Base que cree...
-...si causa problemas la elimino    
 
 Si los test no corrent poner test en el comienzo del nombre del archivo
 

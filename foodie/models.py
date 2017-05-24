@@ -7,8 +7,33 @@ from imagekit.processors import ResizeToFill
 from core.choices import CITY, GENDER
 
 
-class User_Info(models.Model):
-    user = models.ForeignKey(User)
+class Foodie(User):
+    class Meta:
+        proxy = True
+
+    @property
+    def get_restaurant_liked(self):
+        return
+    
+    @property
+    def get_dishes_liked(self):
+        return
+
+    @property
+    def get_all_following(self):
+        return
+
+    @property
+    def get_all_followers(self):
+        return
+    
+    @property
+    def get_recent_activity(self):
+        return 
+
+
+class Foodie_Info(models.Model):
+    user = models.ForeignKey(Foodie)
     birthday = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER)
     city = models.CharField(max_length=15, choices=CITY, default="caracas")
