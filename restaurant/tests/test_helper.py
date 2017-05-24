@@ -17,7 +17,7 @@ class TestHelper(TestCase):
         self.ratings = [2, 5, 3, 3, 5, 1, 5, 2, 5]
 
     def create_user(self):
-        return User.objects.create_user(
+        return Foodie.objects.create_user(
             username="javiermaximu",
             password="deadmachine",
             email="javi@gmail.com",

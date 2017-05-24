@@ -11,3 +11,5 @@ class TestHelper(TestCase):
             email="javi@gmail.com",
             first_name="Javier",
             last_name="Romero")
+
+        self.subject = Foodie.objects.filter(username="javiermaximu").first()

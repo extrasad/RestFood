@@ -7,7 +7,7 @@ from imagekit.processors import ResizeToFill
 from core.models import IntegerRangeField
 from core.choices import CITY, ONLY_OFERT
 from django.db.models import Count
-from foodie.models import Foodie
+from foodie.models import *
 
 import json, ast
 

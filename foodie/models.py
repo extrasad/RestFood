@@ -2,10 +2,12 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
+from django.core import serializers
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from core.choices import CITY, GENDER
-
+from core.models import AutoOneToOneField
+import restaurant.models
 
 class Foodie(User):
     class Meta:
@@ -13,24 +15,43 @@ class Foodie(User):
 
     @property
     def get_restaurant_liked(self):
-        return
-    
-    @property
-    def get_dishes_liked(self):
-        return
+        return serializers.serialize(
+            'json', list(restaurant.models.Restaurant.objects.filter(
+                users_like__id=self.pk)
+            )
+        )
 
     @property
-    def get_all_following(self):
-        return
+    def get_dishes_liked(self):
+        return serializers.serialize(
+            'json', list(restaurant.models.Dish.objects.filter(
+                users_like__id=self.pk)
+            )
+        )
 
     @property
     def get_all_followers(self):
-        return
-    
+        return serializers.serialize(
+            'json', list(self.relationship.followed_by.all())
+        )
+
+    @property
+    def get_all_following(self):
+        return serializers.serialize(
+            'json', list(self.relationship.follows.all())
+        )
+
     @property
     def get_recent_activity(self):
-        return 
+        return
 
+
+class RelationShip(models.Model):
+    user = AutoOneToOneField('auth.user')
+    follows = models.ManyToManyField('RelationShip', related_name='followed_by')
+
+    def __unicode__(self):
+        return self.user.username
 
 class Foodie_Info(models.Model):
     user = models.ForeignKey(Foodie)
