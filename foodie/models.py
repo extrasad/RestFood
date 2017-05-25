@@ -43,6 +43,7 @@ class Foodie(User):
 
     @property
     def get_recent_activity(self):
+        # TODO: crear funcion que busque las actividades mas recientes en los resturantes o platos que likeo y usuarios que sigue en un plazo de 31 dias maximo 8 actividades
         return
 
 

@@ -2,6 +2,9 @@
 ### Web Application for restaurants
 
 
+Status: **building** :construction:
+
+
 ---   
 
 Packages Required
@@ -26,6 +29,7 @@ Components Requires
 
 * [jquery](https://github.com/jquery/jquery)
 * [materialize](https://github.com/Dogfalo/materialize)
+* [backbone](http://backbonejs.org/)
 
 Install bower components
 
@@ -33,6 +37,4 @@ Install bower components
 manage.py bower install
 
 ```
----   
-
-Admin account in **admin.json**
+---

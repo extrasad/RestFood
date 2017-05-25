@@ -8,8 +8,7 @@ Command for compile: **sass --watch main.scss:../css/style.css**
  
 ### tools files:
  * _variables.scss
- * _juice.scss, documentation: [juice](http://kylebrumm.com/juice/)
- 
+
 ### partials files:
  * _header.scss
  * _footer.scss

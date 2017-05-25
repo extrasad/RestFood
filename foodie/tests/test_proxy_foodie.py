@@ -1,10 +1,10 @@
 from ..models import *
-from restaurant.models import Restaurant, Dish
+from restaurant.models import Restaurant, Dish, RestaurantReview
 from test_helper import TestHelper
 from faker import Faker
 from random import randint
 
-import json
+import json, datetime, pytz
 
 fake = Faker()
 
@@ -13,7 +13,7 @@ class FoodieProxyTestCase(TestHelper):
     def test_model_create(self):
 
         [Foodie.objects.create(username=fake.text(randint(x+5, 10)), password=fake.text((x+1)*5),
-            email="email_"+str(x)+"@gmail.com") for x in range(0, 4)]
+                               email="email_"+str(x)+"@gmail.com") for x in range(0, 4)]
 
         # Matching
 
@@ -34,7 +34,7 @@ class FoodieProxyTestCase(TestHelper):
 
     def test_get_restaurant_liked(self):
         [Restaurant.objects.create(name=fake.text(randint(x+5, 10)), password=fake.text((x+1)*5),
-            email="email_"+str(x)+"@gmail.com", rif=str(x), number_phone=x) for x in range(0, 5)]
+                                   email="email_"+str(x)+"@gmail.com", rif=str(x), number_phone=x) for x in range(0, 5)]
 
         [Restaurant.objects.get(id=x).users_like.add(self.subject.pk) for x in [1, 3, 5]]
 
@@ -42,7 +42,7 @@ class FoodieProxyTestCase(TestHelper):
 
     def test_get_dishes_liked(self):
         [Dish.objects.create(restaurant_id=1, name=fake.text(randint(x+5, 10)), description=fake.text((x+1)*5),
-            mealtype="pizza") for x in range(0, 5)]
+                             mealtype="pizza") for x in range(0, 5)]
 
         [Dish.objects.get(id=x).users_like.add(self.subject.pk) for x in [1, 3, 4, 5]]
 
@@ -67,3 +67,29 @@ class FoodieProxyTestCase(TestHelper):
         self.assertEqual(len(json.loads(self.subject.get_all_followers)), 3)
 
 
+    def test_get_recent_activity(self):
+        user_1 = Foodie.objects.get_or_create(username='user_1')[0]
+        user_2 = Foodie.objects.get_or_create(username='user_2')[0]
+        user_3 = Foodie.objects.get_or_create(username='user_3')[0]
+        user_4 = Foodie.objects.get_or_create(username='user_4')[0]
+        user_5 = Foodie.objects.get_or_create(username='user_5')[0]  # Should not nothing, user_1 no follow user_5
+
+        #  user_1 follow user_2, user_3, user_4 but not to user_5, fuck off user_5
+        [user_1.relationship.follows.add(x.relationship) for x in [user_2, user_3, user_4]]
+        dish_for_like = Dish.objects.create(restaurant_id=1, name="Burger",
+                                    description=fake.text(10), mealtype="pizza")
+        restaurant_for_like = Restaurant.objects.create(name="Restaurant", password="123456789",
+                                         rif="6666-2144-1244-2426-0080", number_phone=0424421442,
+                                         email="restaurant@dominie.com")
+        #  user_2 -> like -> dish
+        dish_for_like.users_like.add(user_2.pk)
+        #  user_3 -> review -> restaurant
+        RestaurantReview.objects.create(restaurant_id=1, user_id=user_3.pk, text=fake.text(10))
+        #  user_3 -> like -> restaurant
+        restaurant_for_like.users_like.add(user_3.pk)
+        #  user_3 -> follow -> user_4
+        user_3.relationship.follows.add(user_4.relationship)
+        # TODO: crear 5 activades mas , total se deberian ver 8 y la otra no porque el max es 8
+
+
+        #  Call @property function in the class Foodie and Matching

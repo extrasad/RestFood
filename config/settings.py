@@ -138,15 +138,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'app/static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'core/static')
 STATIC_URL = '/static/'
 
 #media url
-MEDIA_ROOT = os.path.join(BASE_DIR, 'app/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'core/static/media')
 MEDIA_URL = '/media/'
 
 #djang-bower
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'component')
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'core/static/vendor')
 BOWER_INSTALLED_APPS = (
     'jquery',
     'materialize',
