@@ -16,7 +16,7 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=60, null=False, unique=True)
     password = models.CharField(max_length=25, null=False, unique=True)
     rif = models.CharField(max_length=100, null=False, unique=True)
-    number_phone = models.IntegerField()
+    number_phone = models.CharField(max_length=16)
     email = models.EmailField(max_length=45, null=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
