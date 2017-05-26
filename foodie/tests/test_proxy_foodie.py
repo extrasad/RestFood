@@ -1,5 +1,5 @@
 from ..models import *
-from restaurant.models import Restaurant, Dish, RestaurantReview
+from restaurant.models import Restaurant, Dish, RestaurantReview, DishReview
 from test_helper import TestHelper
 from faker import Faker
 from random import randint
@@ -75,21 +75,34 @@ class FoodieProxyTestCase(TestHelper):
         user_5 = Foodie.objects.get_or_create(username='user_5')[0]  # Should not nothing, user_1 no follow user_5
 
         #  user_1 follow user_2, user_3, user_4 but not to user_5, fuck off user_5
-        [user_1.relationship.follows.add(x.relationship) for x in [user_2, user_3, user_4]]
-        dish_for_like = Dish.objects.create(restaurant_id=1, name="Burger",
-                                    description=fake.text(10), mealtype="pizza")
+
+        [self.subject.relationship.follows.add(x.relationship) for x in [user_1, user_2, user_3, user_4]]
         restaurant_for_like = Restaurant.objects.create(name="Restaurant", password="123456789",
                                          rif="6666-2144-1244-2426-0080", number_phone=0424421442,
                                          email="restaurant@dominie.com")
+        dish_for_like_1 = Dish.objects.create(restaurant_id=1, name="Burger",
+                                    description=fake.text(10), mealtype="pizza")
+        dish_for_like_2 = Dish.objects.create(restaurant_id=1, name="Burger",
+                                    description=fake.text(10), mealtype="pizza")
+
+        #  user_1 -> follow -> user_5
+        user_1.relationship.follows.add(user_5.relationship)
         #  user_2 -> like -> dish
-        dish_for_like.users_like.add(user_2.pk)
+        dish_for_like_1.users_like.add(user_2.pk)
         #  user_3 -> review -> restaurant
         RestaurantReview.objects.create(restaurant_id=1, user_id=user_3.pk, text=fake.text(10))
         #  user_3 -> like -> restaurant
         restaurant_for_like.users_like.add(user_3.pk)
         #  user_3 -> follow -> user_4
         user_3.relationship.follows.add(user_4.relationship)
-        # TODO: crear 5 activades mas , total se deberian ver 8 y la otra no porque el max es 8
+        #  user_3 -> like -> dish
+        dish_for_like_2.users_like.add(user_3.pk)
+        #  user_2 -> follow -> user_4
+        user_2.relationship.follows.add(user_4.relationship)
+        # user_4 -> review -> dish
+        DishReview.objects.create(dish_id=1, user_id=user_4.pk, text=fake.text(10))
+        # user_5 -> review > restaurant | Este deberia ser ignorado porque no lo sigue self.subject
+        RestaurantReview.objects.create(restaurant_id=1, user_id=user_5.pk, text=fake.text(10))
 
-
-        #  Call @property function in the class Foodie and Matching
+        # TODO: la funcion debe agarrar 6 resultados y ver si pueden ser variantes, no todos de la misma tabla
+        self.assertEqual(len(json.loads(self.subject.get_recent_activity(6))), 6)

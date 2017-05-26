@@ -7,7 +7,11 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from core.choices import CITY, GENDER
 from core.models import AutoOneToOneField
+from django.utils import timezone
+import datetime
 import restaurant.models
+from itertools import chain
+
 
 class Foodie(User):
     class Meta:
@@ -41,10 +45,41 @@ class Foodie(User):
             'json', list(self.relationship.follows.all())
         )
 
-    @property
-    def get_recent_activity(self):
-        # TODO: crear funcion que busque las actividades mas recientes en los resturantes o platos que likeo y usuarios que sigue en un plazo de 31 dias maximo 8 actividades
-        return
+
+    def get_recent_activity(self, limit, days=30):
+        """
+        :param limit: Cantidad maxima de QuerySet por cada consulta 
+        :param days:  Intervalos de dias en los cuales buscar actividad
+        :return: Un objecto complejo con la combinacion de las consultas hechas.
+        
+        :algorithm:
+            1.) Calculo la fecha de hoy menos limit en el formato correcto para la consulta
+            2.) Verifico si self sigue a alguien, si no es asi retorno False
+            3.) Consulto en DishReview, ResturantReview
+            4.) Junto todos los QuerySet y lo serializo en formato json
+        """
+        # TODO solo agarra los review -> todo -> Consultar likes y relationships
+        days = timezone.now() - datetime.timedelta(days=days) # Calculo la fecha de hoy con los dias maximos para buscar
+        # Primero intento conseguir los id de los usuarios seguidos por self
+        id_follows =  [x['user_id'] for x in list(self.relationship.follows.values('user_id').all())]
+        if len(id_follows) == 0:
+            return False # Significa que self no sigue a nadie
+
+        recent_dish_review = restaurant.models.DishReview. \
+                                       objects.filter(user_id__in=id_follows,
+                                                      created_at__lte=timezone.now(),
+                                                      created_at__gte=days
+                                                      ).order_by('-created_at')[:limit]
+
+        recent_restaurant_review = restaurant.models.RestaurantReview. \
+                                       objects.filter(user_id__in=id_follows,
+                                                      created_at__lte=timezone.now(),
+                                                      created_at__gte=days
+                                                      ).order_by('-created_at')[:limit]
+
+        return serializers.serialize(
+            'json', list(sorted(chain(recent_restaurant_review, recent_dish_review)))
+        )
 
 
 class RelationShip(models.Model):

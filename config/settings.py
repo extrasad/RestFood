@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'material',
     'material.admin',
     'imagekit',
+    'rest_framework',
 
     #django normal packages
     'django.contrib.admin',
