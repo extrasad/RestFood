@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'core',
     'service',
@@ -68,6 +69,14 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'djangobower.finders.BowerFinder',
 ]
+
+AUTH_USER_MODEL = 'core.UserExtend'
+
+
+AUTHENTICATION_BACKENDS = [
+    'core.backend.EmailOrUsernameModelBackend'
+]
+
 
 #https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-STATICFILES_FINDERS
 

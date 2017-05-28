@@ -13,11 +13,10 @@ import json, ast
 
 
 class Restaurant(models.Model):
-    name = models.CharField(max_length=60, null=False, unique=True)
-    password = models.CharField(max_length=25, null=False, unique=True)
-    rif = models.CharField(max_length=100, null=False, unique=True)
+    user = models.OneToOneField(UserExtend)
+    name = models.CharField(max_length=60, null=True, unique=True)
+    rif = models.CharField(max_length=100, null=True, unique=True)
     number_phone = models.CharField(max_length=16)
-    email = models.EmailField(max_length=45, null=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     users_like = models.ManyToManyField(Foodie, related_name='restaurant_like', blank=True)
@@ -82,7 +81,7 @@ class Restaurant(models.Model):
 
 
 class RestaurantInfo(models.Model):
-    restaurant = models.ForeignKey(Restaurant)
+    restaurant = models.OneToOneField(Restaurant)
     mealtype = models.CharField(max_length=15)
     slogan = models.CharField(max_length=112)
     description = models.CharField(max_length=300)
@@ -99,8 +98,8 @@ class RestaurantSucursal(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class RestaurantMedia(models.Model):
-    restaurant = models.ForeignKey(Restaurant)
+class RestaurantMediaProfile(models.Model):
+    restaurant = models.OneToOneField(Restaurant)
     banner = models.ImageField(upload_to='restaurant_banner/', default='restaurant_banner/default.jpg')
     banner_thumbnail = ImageSpecField(source='banner',processors=[ResizeToFill(100, 50)],
                                       format='JPEG', options={'quality': 60})
@@ -176,3 +175,22 @@ class DishReview(models.Model):
     @property
     def total_likes(self):
         return self.users_like.count()
+
+
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+# from models import UserExtend
+# from restaurant.models import Restaurant
+# from foodie.models import Foodie
+
+# @receiver(post_save, sender=UserExtend)
+# def create_foodie(sender, instance, *args, **kwargs):
+#     print instance.type
+#     if instance.type == 'F':
+#         print "foooodie"
+#         Foodie.objects.get_or_create(user_id=instance.id)
+#     elif instance.type == 'R':
+#         print "res"
+#         Restaurant.objects.get_or_create(user_id=instance.id)

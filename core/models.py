@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import OneToOneField
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db.transaction import atomic
 
 try:
@@ -14,6 +14,12 @@ except ImportError:
 from django.db.transaction import atomic
 
 from choices import *
+
+class UserExtend(AbstractUser):
+    type = models.CharField(max_length=1, null=False, choices=(
+        ('restaurant', 'R'),
+        ('foodie', 'F'))
+    )
 
 
 class IntegerRangeField(models.IntegerField):

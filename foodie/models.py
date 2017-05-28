@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from django.contrib.auth.models import User
 from django.core import serializers
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from core.choices import CITY, GENDER
-from core.models import AutoOneToOneField
+from core.models import AutoOneToOneField, UserExtend
 from django.utils import timezone
-import datetime
-import restaurant.models
 from itertools import chain
 
+import datetime
+import restaurant.models
 
-class Foodie(User):
-    class Meta:
-        proxy = True
+
+class Foodie(models.Model):
+    user = models.OneToOneField(UserExtend)
 
     @property
     def get_restaurant_liked(self):
@@ -83,14 +82,14 @@ class Foodie(User):
 
 
 class RelationShip(models.Model):
-    user = AutoOneToOneField('auth.user')
+    user = AutoOneToOneField(Foodie) # before 'auth.user'
     follows = models.ManyToManyField('RelationShip', related_name='followed_by')
 
     def __unicode__(self):
         return self.user.username
 
 class Foodie_Info(models.Model):
-    user = models.ForeignKey(Foodie)
+    foodie = models.OneToOneField(Foodie)
     birthday = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER)
     city = models.CharField(max_length=15, choices=CITY, default="caracas")

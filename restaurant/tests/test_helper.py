@@ -1,39 +1,38 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from ..models import *
 
 import json, os
 
+
 class TestHelper(TestCase):
 
     def setUp(self):
-        Restaurant.objects.create(
+        user = UserExtend.objects.create(type="R", password="123456789", email="restaurant@dominie.com")
+        Restaurant.objects.filter(pk=user.pk).update(
             name="Restaurant Name",
-            password="123456789",
             rif="6666-2144-1244-2426-0080",
-            number_phone=0424421442,
-            email="restaurant@dominie.com")
+            number_phone=0424421442)
         self.subject = Restaurant.objects.get(name="Restaurant Name")
         self.ratings = [2, 5, 3, 3, 5, 1, 5, 2, 5]
 
     def create_user(self):
-        return Foodie.objects.create_user(
-            username="javiermaximu",
-            password="deadmachine",
-            email="javi@gmail.com",
-            first_name="Javier",
-            last_name="Romero")
+        user = UserExtend.objects.create(type="F", username="javiermaximu",
+                                         password="deadmachine", email="javi@gmail.com",
+                                         first_name="Javier", last_name="Romero")
+        return get_object_or_404(Foodie, user_id=user.pk)
 
     def create_restaurants(self):
         with open(os.path.abspath("restaurant/tests/restaurants.json")) as file:
             restaurant_json = json.load(file)
             for restaurant in restaurant_json['restaurants']:
-                this_restaurant = Restaurant.objects.create(
+                user_restaurant = UserExtend.objects.create(type="R", password=restaurant['password'], email=restaurant['email'])
+                Restaurant.objects.filter(pk=user_restaurant.pk).update(
                     name=restaurant['name'],
-                    password=restaurant['password'],
                     rif=restaurant['rif'],
-                    number_phone=restaurant['number_phone'],
-                    email=restaurant['email'])
+                    number_phone=restaurant['number_phone'])
+                this_restaurant = get_object_or_404(Restaurant, user_id=user_restaurant.pk)
                 try:
                     sucursals = restaurant['sucursal']
                     for sucursal in sucursals:
