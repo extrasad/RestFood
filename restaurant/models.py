@@ -175,22 +175,3 @@ class DishReview(models.Model):
     @property
     def total_likes(self):
         return self.users_like.count()
-
-
-
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-# from models import UserExtend
-# from restaurant.models import Restaurant
-# from foodie.models import Foodie
-
-# @receiver(post_save, sender=UserExtend)
-# def create_foodie(sender, instance, *args, **kwargs):
-#     print instance.type
-#     if instance.type == 'F':
-#         print "foooodie"
-#         Foodie.objects.get_or_create(user_id=instance.id)
-#     elif instance.type == 'R':
-#         print "res"
-#         Restaurant.objects.get_or_create(user_id=instance.id)

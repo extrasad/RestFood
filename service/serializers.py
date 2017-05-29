@@ -2,24 +2,12 @@ from rest_framework.serializers import *
 from restaurant.models import *
 
 
-class FoodieSerializer(ModelSerializer):
-    class Meta:
-        model = Foodie
-        fields = ('id', 'first_name', 'last_name', 'email', 'username', 'password')
-
-
 class FoodieInfoSerializer(ModelSerializer):
     avatar = ImageField(required=False)
     birthday = DateField(format='%Y-%m-%d')
     class Meta:
         model = Foodie_Info
-        fields = ('id', 'user', 'birthday', 'gender', 'city', 'avatar')
-
-
-class RestaurantSerializer(ModelSerializer):
-    class Meta:
-        model = Restaurant
-        fields = ('id', 'name', 'password', 'rif', 'number_phone', 'email')
+        fields = ('id', 'foodie', 'birthday', 'gender', 'city', 'avatar')
 
 
 class RestaurantInfoSerializer(ModelSerializer):

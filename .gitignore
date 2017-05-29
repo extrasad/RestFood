@@ -20,15 +20,33 @@
 *.rar
 *.tar
 *.zip
-*admin.json
 *db.sqlite3
 
 # Folders #
 ##########
 .idea/
-media/
 component/
 dist/
 build/
 restfood_env/
 core/static/stylesheets/sass/.sass-cache
+
+core/static/media/food_dishes/*
+!core/static/media/food_dishes/.gitkeep
+!core/static/media/food_dishes/default.jpg
+
+core/static/media/food_offers/*
+!core/static/media/food_offers/.gitkeep
+!core/static/media/food_offers/default.jpg
+
+core/static/media/restaurant_banner/*
+!core/static/media/restaurant_banner/.gitkeep
+!core/static/media/restaurant_banner/default.jpg
+
+core/static/media/restaurant_picture/*
+!core/static/media/restaurant_picture/.gitkeep
+!core/static/media/restaurant_picture/default.jpg
+
+core/static/media/user_profile/*
+!core/static/media/user_profile/.gitkeep
+!core/static/media/user_profile/default.jpg

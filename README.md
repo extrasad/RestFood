@@ -1,5 +1,5 @@
 #  **RestFood**
-### Web Application for restaurants
+### Web Application for restaurants and foodies :hamburger:
 
 
 Status: **building** :construction:
@@ -15,6 +15,7 @@ Packages Required
 * [django-simple-captcha](https://github.com/mbi/django-simple-captcha)
 * [django-newsletter](https://github.com/dokterbob/django-newsletter)
 * [Pillow](https://github.com/python-pillow/Pillow)
+* [numpy]()
 
 Install packages
 
@@ -38,3 +39,37 @@ manage.py bower install
 
 ```
 ---
+
+TODO:
+---
+* [ ] Create images default
+    * [ ] Food
+        * [ ] Hamburger
+        * [ ] Pizza
+        * [ ] Pasta
+        * [ ] Hot Dog
+        * [ ] Sushi
+        * [ ] Coffee
+        * [ ] Tea
+        * [ ] Cookies
+    * [ ] Food Offer
+    * [ ] Restaurant Banner
+        * [ ] Hamburger
+        * [ ] Pizza
+        * [ ] Pasta
+        * [ ] Hot Dog
+        * [ ] Sushi
+        * [ ] Coffee
+        * [ ] Tea
+        * [ ] Cookies
+    * [ ] Restaurant Picture
+    * [ ] Foodie
+        * [ ] Male
+        * [ ] Female
+        * [ ] Undefined
+
+* [ ] Create views for restaurant registration
+        * [ ] One Page Style
+        * [ ] Basic Information
+        * [ ] Branch information (Google Maps Interaction): japanese_goblin:
+        * [ ] Information profile
