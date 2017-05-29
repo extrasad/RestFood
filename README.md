@@ -68,8 +68,8 @@ TODO:
         * [ ] Female
         * [ ] Undefined
 
-* [ ] Create views for restaurant registration
+   * [ ] Create views for restaurant registration
         * [ ] One Page Style
         * [ ] Basic Information
-        * [ ] Branch information (Google Maps Interaction): japanese_goblin:
+        * [ ] Branch information (Google Maps Interaction) :japanese_goblin:
         * [ ] Information profile
