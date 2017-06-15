@@ -58,35 +58,49 @@ class Foodie(models.Model):
             4.) Junto todos los QuerySet y lo serializo en formato json
         """
         # TODO solo agarra los review -> todo -> Consultar likes y relationships
+        # TODO Cuando este metodo este listo para su uso, solo se usara cada 12 horasy el resultado se debera
+        # TODO guardar en las cookies.
         days = timezone.now() - datetime.timedelta(days=days) # Calculo la fecha de hoy con los dias maximos para buscar
         # Primero intento conseguir los id de los usuarios seguidos por self
         id_follows =  [x['user_id'] for x in list(self.relationship.follows.values('user_id').all())]
         if len(id_follows) == 0:
             return False # Significa que self no sigue a nadie
 
+        # Review Dish creada por las personas que sigues
         recent_dish_review = restaurant.models.DishReview. \
                                        objects.filter(user_id__in=id_follows,
                                                       created_at__lte=timezone.now(),
                                                       created_at__gte=days
                                                       ).order_by('-created_at')[:limit]
 
+        # Review Restaurant creada por las personas que sigues
         recent_restaurant_review = restaurant.models.RestaurantReview. \
                                        objects.filter(user_id__in=id_follows,
                                                       created_at__lte=timezone.now(),
                                                       created_at__gte=days
                                                       ).order_by('-created_at')[:limit]
 
+        # Usuarios que sigues y like un Dish
+        recent_like_dish = restaurant.models.DishesLikes. \
+                                       objects.filter(user_id__in=id_follows,
+                                                      created_at__lte=timezone.now(),
+                                                      created_at__gte=days
+                                                      ).order_by('-created_at')[:limit]
+
+        # TODO cuando termine de hacer todas la consultas debo tranformar los datos y normalizarlos
+
         return serializers.serialize(
-            'json', list(sorted(chain(recent_restaurant_review, recent_dish_review)))
+            'json', list(sorted(chain(recent_restaurant_review, recent_dish_review, recent_like_dish)))
         )
 
 
 class RelationShip(models.Model):
-    user = AutoOneToOneField(Foodie) # before 'auth.user'
+    user = AutoOneToOneField(Foodie)
     follows = models.ManyToManyField('RelationShip', related_name='followed_by')
 
     def __unicode__(self):
         return self.user.username
+
 
 class Foodie_Info(models.Model):
     foodie = models.OneToOneField(Foodie)

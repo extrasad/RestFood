@@ -15,6 +15,7 @@ from django.db.transaction import atomic
 
 from choices import *
 
+
 class UserExtend(AbstractUser):
     type = models.CharField(max_length=1, null=False, choices=(
         ('restaurant', 'R'),

@@ -19,7 +19,8 @@ class Restaurant(models.Model):
     number_phone = models.CharField(max_length=16)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    users_like = models.ManyToManyField(Foodie, related_name='restaurant_like', blank=True)
+    users_like = models.ManyToManyField(Foodie, through='RestaurantsLikes',
+                                        related_name='restaurant_like', blank=True)
 
     @property
     def total_likes(self):
@@ -78,6 +79,14 @@ class Restaurant(models.Model):
         for n in query:
             array_dishes.append(n)
         return json.dumps({'popular_dishes': array_dishes})
+
+
+class RestaurantsLikes(models.Model):
+    class Meta:
+        db_table = 'meta_restaurants_likes'
+    user = models.ForeignKey(Foodie)
+    restaurant = models.ForeignKey(Restaurant)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class RestaurantInfo(models.Model):
@@ -144,11 +153,20 @@ class Dish(models.Model):
                                      format='JPEG', options={'quality': 60})
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    users_like = models.ManyToManyField(Foodie, related_name='dish_like', blank=True)
+    users_like = models.ManyToManyField(Foodie, through='DishesLikes',
+                                        related_name='dish_like', blank=True)
 
     @property
     def total_likes(self):
         return self.users_like.count()
+
+
+class DishesLikes(models.Model):
+    class Meta:
+        db_table = 'meta_dishes_likes'
+    user = models.ForeignKey(Foodie)
+    dish = models.ForeignKey(Dish)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class RestaurantReview(models.Model):

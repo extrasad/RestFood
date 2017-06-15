@@ -87,4 +87,4 @@ class TestHelper(TestCase):
                     name=dish['name'],
                     description=dish['description'])
                 for user in dish['likes']:
-                    this_dish.users_like.add(user['user_id'])
+                    DishesLikes.objects.create(user_id=user['user_id'], dish_id=this_dish.pk)

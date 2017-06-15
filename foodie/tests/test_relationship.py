@@ -5,11 +5,13 @@ import json
 
 
 class RelationshipTestCase(TestHelper):
+    def setUp(self):
+        self.create_people(['tim', 'chris', 'carl'])
 
     def test_follow_functionality(self):
-        tim = Foodie.objects.get_or_create(username='tim')[0]
-        chris = Foodie.objects.get_or_create(username='chris')[0]
-        carl = Foodie.objects.get_or_create(username='carl')[0]
+        tim = UserExtend.objects.get_or_create(username='tim')[0].foodie
+        chris = UserExtend.objects.get_or_create(username='chris')[0].foodie
+        carl = UserExtend.objects.get_or_create(username='carl')[0].foodie
         tim.relationship.follows.add(chris.relationship)  # chris follows tim
         tim.relationship.follows.add(carl.relationship)   # carl follows tim
         chris.relationship.follows.add(tim.relationship)
