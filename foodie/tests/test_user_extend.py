@@ -69,10 +69,12 @@ class UserExtendTestCase(TestHelper):
         user_1, user_2, user_3, user_4, user_5 = self.create_people(['user_1', 'user_2', 'user_3', 'user_4', 'user_5'])
 
         #  user_1 follow user_2, user_3, user_4 but not to user_5, fuck off user_5
-
         [self.subject.relationship.follows.add(x.relationship) for x in [user_1, user_2, user_3, user_4]]
+
         user_restaurant = UserExtend.objects.create(type="R", password="123456789", email="restaurant@dominie.com")
+
         restaurant_for_like = Restaurant.objects.filter(user_id=user_restaurant.pk).first()
+
         dish_for_like_1 = Dish.objects.create(restaurant_id=1, name="Burger",
                                     description=fake.text(10), mealtype="pizza")
         dish_for_like_2 = Dish.objects.create(restaurant_id=1, name="Burger",
@@ -83,42 +85,45 @@ class UserExtendTestCase(TestHelper):
 
         #  user_2 -> like -> dish
         restaurant.models.DishesLikes.objects.create(user_id=user_2.pk, dish_id=dish_for_like_1.pk)
-        # dish_for_like_1.users_like.add(user_2.pk) deprecated
 
         #  user_3 -> review -> restaurant_for_like
         RestaurantReview.objects.create(restaurant_id=1, user_id=user_3.pk, text=fake.text(10))
 
         #  user_3 -> like -> restaurant_for_like
         RestaurantsLikes.objects.create(user_id=user_3.pk, restaurant_id=restaurant_for_like.pk)
+
+        # user_5 -> like > restaurant_for_like | Este deberia ser ignorado porque no lo sigue self.subject
+        RestaurantsLikes.objects.create(user_id=user_5.pk, restaurant_id=restaurant_for_like.pk)
+
         #  user_3 -> follow -> user_4
-
         user_3.relationship.follows.add(user_4.relationship)
-        #  user_3 -> like -> dish
 
+        #  user_3 -> like -> dish
         restaurant.models.DishesLikes.objects.create(user_id=user_3.pk, dish_id=dish_for_like_2.pk)
-        # dish_for_like_2.users_like.add(user_3.pk) deprecated
 
         #  user_2 -> follow -> user_4
         user_2.relationship.follows.add(user_4.relationship)
+
         # user_4 -> review -> dish
-
         DishReview.objects.create(dish_id=1, user_id=user_4.pk, text=fake.text(10))
-        # user_5 -> review > restaurant | Este deberia ser ignorado porque no lo sigue self.subject
 
+        # user_5 -> follow > user_1| Este deberia ser ignorado porque no lo sigue self.subject
+        user_5.relationship.follows.add(user_1.relationship)
+
+        # user_5 -> review > restaurant | Este deberia ser ignorado porque no lo sigue self.subject
         RestaurantReview.objects.create(restaurant_id=1, user_id=user_5.pk, text=fake.text(10))
 
         """
             Should return :
-            user_1 -> follow -> user_5
-            user_2 -> like   -> dish = listo
+            user_1 -> follow -> user_5     = listo
+            user_2 -> like   -> dish       = listo
             user_3 -> review -> restaurant = listo
-            user_3 -> like   -> restaurant = Hacer este
-            user_3 -> follow -> user_4
-            user_3 -> like   -> dish
-            user_2 -> follow -> user_4
-            user_4 -> review -> dish = listo
+            user_3 -> like   -> restaurant = listo
+            user_3 -> follow -> user_4     = listo
+            user_3 -> like   -> dish       = listo
+            user_2 -> follow -> user_4     = listo
+            user_4 -> review -> dish       = listo
         """
 
-        print json.loads(self.subject.get_recent_activity(2))
-        # TODO: la funcion debe agarrar 6 resultados y ver si pueden ser variantes, no todos de la misma tabla
-        self.assertEqual(len(json.loads(self.subject.get_recent_activity(6))), 6)
+        recent_activity = self.subject.get_recent_activity(3)
+        self.assertEqual(len(json.loads(recent_activity)), 8)

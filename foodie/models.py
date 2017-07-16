@@ -44,28 +44,31 @@ class Foodie(models.Model):
             'json', list(self.relationship.follows.all())
         )
 
-
     def get_recent_activity(self, limit, days=30):
         """
         :param limit: Cantidad maxima de QuerySet por cada consulta 
         :param days:  Intervalos de dias en los cuales buscar actividad
-        :return: Un objecto complejo con la combinacion de las consultas hechas.
+        :return:      Un json de todas las consultas juntas en una lista
         
         :algorithm:
             1.) Calculo la fecha de hoy menos limit en el formato correcto para la consulta
             2.) Verifico si self sigue a alguien, si no es asi retorno False
-            3.) Consulto en DishReview, ResturantReview
+            3.) Consulto en las tablas
             4.) Junto todos los QuerySet y lo serializo en formato json
+            
+        :features:
+            This function should be called every 12 hours and curly
         """
-        # TODO solo agarra los review -> todo -> Consultar likes y relationships
-        # TODO Cuando este metodo este listo para su uso, solo se usara cada 12 horasy el resultado se debera
-        # TODO guardar en las cookies.
-        days = timezone.now() - datetime.timedelta(days=days) # Calculo la fecha de hoy con los dias maximos para buscar
-        # Primero intento conseguir los id de los usuarios seguidos por self
-        id_follows =  [x['user_id'] for x in list(self.relationship.follows.values('user_id').all())]
+
+        # 1.)
+        days = timezone.now() - datetime.timedelta(days=days)
+
+        # 2.)
+        id_follows = [x['user_id'] for x in list(self.relationship.follows.values('user_id').all())]
         if len(id_follows) == 0:
             return False # Significa que self no sigue a nadie
 
+        # 3.)
         # Review Dish creada por las personas que sigues
         recent_dish_review = restaurant.models.DishReview. \
                                        objects.filter(user_id__in=id_follows,
@@ -87,16 +90,35 @@ class Foodie(models.Model):
                                                       created_at__gte=days
                                                       ).order_by('-created_at')[:limit]
 
-        # TODO cuando termine de hacer todas la consultas debo tranformar los datos y normalizarlos
+        # Usuarios que sigues y like Restaurant
+        recent_like_restaurant = restaurant.models.RestaurantsLikes. \
+                                         objects.filter(user_id__in=id_follows,
+                                                        created_at__lte=timezone.now(),
+                                                        created_at__gte = days
+                                                        ).order_by('-created_at')[:limit]
+
+        # Usuarios que sigues han seguido nuevas personas
+        recent_follower_following = RelationShip.objects. \
+                                        filter(relationships__in=id_follows,
+                                                       created_at__lte = timezone.now(),
+                                                       created_at__gte = days
+                                                       ).order_by('-created_at')[:limit]
 
         return serializers.serialize(
-            'json', list(sorted(chain(recent_restaurant_review, recent_dish_review, recent_like_dish)))
-        )
+            'json', list(chain(recent_restaurant_review,
+                               recent_dish_review,
+                               recent_like_dish,
+                               recent_like_restaurant,
+                               recent_follower_following)))
 
 
 class RelationShip(models.Model):
     user = AutoOneToOneField(Foodie)
-    follows = models.ManyToManyField('RelationShip', related_name='followed_by')
+    follows = models.ManyToManyField('RelationShip',
+                                     related_query_name="%(class)ss",
+                                     related_name='followed_by')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.user.username
