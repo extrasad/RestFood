@@ -13,7 +13,7 @@ class TestHelper(TestCase):
         Restaurant.objects.filter(pk=user.pk).update(
             name="Restaurant Name",
             rif="6666-2144-1244-2426-0080",
-            number_phone=0424421442)
+            number_phone="0424421442")
         self.subject = Restaurant.objects.get(name="Restaurant Name")
         self.ratings = [2, 5, 3, 3, 5, 1, 5, 2, 5]
 

@@ -30,7 +30,7 @@ dist/
 build/
 restfood_env/
 core/static/stylesheets/sass/.sass-cache
-
+.vscode
 core/static/media/food_dishes/*
 !core/static/media/food_dishes/.gitkeep
 !core/static/media/food_dishes/default.jpg

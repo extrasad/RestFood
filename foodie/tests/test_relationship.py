@@ -1,5 +1,5 @@
 from ..models import *
-from test_helper import TestHelper
+from foodie.tests.test_helper import TestHelper
 
 import json
 

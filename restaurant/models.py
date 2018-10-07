@@ -13,7 +13,7 @@ import json, ast
 
 
 class Restaurant(models.Model):
-    user = models.OneToOneField(UserExtend)
+    user = models.OneToOneField(UserExtend, on_delete=models.CASCADE)
     name = models.CharField(max_length=60, null=True, unique=True)
     rif = models.CharField(max_length=100, null=True, unique=True)
     number_phone = models.CharField(max_length=16)
@@ -84,13 +84,13 @@ class Restaurant(models.Model):
 class RestaurantsLikes(models.Model):
     class Meta:
         db_table = 'meta_restaurants_likes'
-    user = models.ForeignKey(Foodie)
-    restaurant = models.ForeignKey(Restaurant)
+    user = models.ForeignKey(Foodie, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class RestaurantInfo(models.Model):
-    restaurant = models.OneToOneField(Restaurant)
+    restaurant = models.OneToOneField(Restaurant, on_delete=models.CASCADE)
     mealtype = models.CharField(max_length=15)
     slogan = models.CharField(max_length=112)
     description = models.CharField(max_length=300)
@@ -99,7 +99,7 @@ class RestaurantInfo(models.Model):
 
 
 class RestaurantSucursal(models.Model):
-    restaurant = models.ForeignKey(Restaurant)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     city = models.CharField(max_length=15, choices=CITY, default="caracas")
     address = models.CharField(max_length=112, default="undefined")
     main = models.BooleanField(default=False)
@@ -108,7 +108,7 @@ class RestaurantSucursal(models.Model):
 
 
 class RestaurantMediaProfile(models.Model):
-    restaurant = models.OneToOneField(Restaurant)
+    restaurant = models.OneToOneField(Restaurant, on_delete=models.CASCADE)
     banner = models.ImageField(upload_to='restaurant_banner/', default='restaurant_banner/default.jpg')
     banner_thumbnail = ImageSpecField(source='banner',processors=[ResizeToFill(100, 50)],
                                       format='JPEG', options={'quality': 60})
@@ -120,15 +120,15 @@ class RestaurantMediaProfile(models.Model):
 
 
 class Restaurant_Star(models.Model):
-    user = models.ForeignKey(Foodie)
-    restaurant = models.ForeignKey(Restaurant)
+    user = models.ForeignKey(Foodie, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     rating = IntegerRangeField(min_value=0, max_value=5, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Offer(models.Model):
-    restaurant = models.ForeignKey(Restaurant)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     name = models.CharField(max_length=85)
     description = models.CharField(max_length=400)
     photo = models.ImageField(upload_to='food_offers/', default="food_offers/default.jpg")
@@ -141,8 +141,8 @@ class Offer(models.Model):
 
 
 class Dish(models.Model):
-    restaurant = models.ForeignKey(Restaurant)
-    offer = models.ForeignKey(Offer, null=True)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    offer = models.ForeignKey(Offer, null=True, on_delete=models.CASCADE)
     only_ofert = models.CharField(max_length=3, choices=ONLY_OFERT) #Si el plato es only ofert no se renderizara en la parte de platos del Restaurant
     description = models.CharField(max_length=200)
     name = models.CharField(max_length=85)
@@ -164,14 +164,14 @@ class Dish(models.Model):
 class DishesLikes(models.Model):
     class Meta:
         db_table = 'meta_dishes_likes'
-    user = models.ForeignKey(Foodie)
-    dish = models.ForeignKey(Dish)
+    user = models.ForeignKey(Foodie, on_delete=models.CASCADE)
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class RestaurantReview(models.Model):
-    restaurant = models.ForeignKey(Restaurant)
-    user = models.ForeignKey(Foodie)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    user = models.ForeignKey(Foodie, on_delete=models.CASCADE)
     text = models.CharField(max_length=240)
     users_like = models.ManyToManyField(Foodie, related_name='restaurant_review_like', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -183,8 +183,8 @@ class RestaurantReview(models.Model):
 
 
 class DishReview(models.Model):
-    dish = models.ForeignKey(Dish)
-    user = models.ForeignKey(Foodie)
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    user = models.ForeignKey(Foodie, on_delete=models.CASCADE)
     text = models.CharField(max_length=120)
     users_like = models.ManyToManyField(Foodie, related_name='dish_review_like', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

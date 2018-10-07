@@ -14,7 +14,7 @@ import restaurant.models
 
 
 class Foodie(models.Model):
-    user = models.OneToOneField(UserExtend)
+    user = models.OneToOneField(UserExtend, on_delete=models.CASCADE)
 
     @property
     def get_restaurant_liked(self):
@@ -113,7 +113,7 @@ class Foodie(models.Model):
 
 
 class RelationShip(models.Model):
-    user = AutoOneToOneField(Foodie)
+    user = AutoOneToOneField(Foodie, on_delete=models.CASCADE)
     follows = models.ManyToManyField('RelationShip',
                                      related_query_name="%(class)ss",
                                      related_name='followed_by')
@@ -125,7 +125,7 @@ class RelationShip(models.Model):
 
 
 class Foodie_Info(models.Model):
-    foodie = models.OneToOneField(Foodie)
+    foodie = models.OneToOneField(Foodie, on_delete=models.CASCADE)
     birthday = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER)
     city = models.CharField(max_length=15, choices=CITY, default="caracas")

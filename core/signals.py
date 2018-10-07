@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from models import UserExtend
+from core.models import UserExtend
 from restaurant.models import Restaurant
 from foodie.models import Foodie
 

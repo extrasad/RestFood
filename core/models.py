@@ -13,7 +13,7 @@ except ImportError:
 
 from django.db.transaction import atomic
 
-from choices import *
+from core.choices import *
 
 
 class UserExtend(AbstractUser):

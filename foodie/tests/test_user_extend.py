@@ -1,6 +1,6 @@
 from ..models import *
 from restaurant.models import Restaurant, Dish, RestaurantReview, DishReview, RestaurantsLikes
-from test_helper import TestHelper
+from foodie.tests.test_helper import TestHelper
 from faker import Faker
 from random import randint
 
@@ -36,7 +36,7 @@ class UserExtendTestCase(TestHelper):
     def test_get_restaurant_liked(self):
         for x in range(0, 5):
             user = UserExtend.objects.create(type="R", password=fake.text((x+5)), email="email_"+str(x)+"@gmail.com")
-            Restaurant.objects.filter(pk=user.pk).update(rif= str(x), number_phone=0424421442)
+            Restaurant.objects.filter(pk=user.pk).update(rif= str(x), number_phone="0424421442")
 
         [RestaurantsLikes.objects.create(user_id=self.subject.pk, restaurant_id=x) for x in [1, 3, 5]]
 
